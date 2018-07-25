@@ -118,7 +118,7 @@ def get_info(): #或取每一个模块的连接地址以及相关大类的信息
             unit = Unit_Mysql()
             unit.insert_db(host_a)
             count += 1
-            print("抓取了直播间:", username, "的信息！")
+            print(count, ":抓取了直播间:", username, "的信息！")
     print("本次总共抓取了:", count, "信息！")
 
 
