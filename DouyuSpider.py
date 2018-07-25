@@ -4,8 +4,8 @@ import re
 import requests
 from Host_info import *
 from UnitMysql import *
-import time ,datetime
-
+import time
+import json
 
 
 def trans_string(str1):   #将主播的人数转化为整数型
@@ -32,6 +32,19 @@ def get_followers(str_1):  #通过连接获得直播连接获取关注数 https:
     else:
         number = int(total.get_text())
     return number   #斗鱼的关注是以图片的形式展示来，展示不用处理
+
+
+def get_online_number(room_number):       #获取斗鱼的实际在线人数
+    url = "https://www.douyu.com/swf_api/h5room/" + room_number
+    html = open_html(url)
+    json_a = json.loads(html)
+    online_number = 0
+    try:
+        online_number = int(json_a['data']['online'])
+    except:
+        online_number = 0
+    finally:
+        return online_number
 
 
 def getroom_number(str_1):
@@ -64,6 +77,15 @@ def getlinks(url):
     return links, kindurl
 
 
+def caculate_rate(w_watching, online):  #计算影响因子
+    result = 0.0
+    if online == 0:
+        return result
+    else:
+        result = w_watching / online
+    return result
+
+
 def get_info(): #或取每一个模块的连接地址以及相关大类的信息
     url = "https://www.douyu.com/directory/all/"
     links, kindurl = getlinks(url)
@@ -76,17 +98,21 @@ def get_info(): #或取每一个模块的连接地址以及相关大类的信息
             # print(x1)
             kind = x1.find(class_='tag ellipsis').get_text()
             username = x1.find(class_='dy-name ellipsis fl').get_text()
-            room_number = int(x1['data-rid'])
+            room_number = x1['data-rid']
             number = 0
-            link = "https://www.douyu.com/" + str(room_number)
+            link = "https://www.douyu.com/" + room_number
+            online = get_online_number(room_number)
             str1 = x1.find(class_='dy-num fr').get_text()
             number = trans_string(str1)
+            coefficient = caculate_rate(number, online)
             host_a = Host()
             host_a.username = username
             host_a.kind = kind
             host_a.w_number = number
             host_a.room_number = room_number
             host_a.link = link
+            host_a.online = online
+            host_a.coefficient = coefficient
             datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
             host_a.localtime = str(datetime1)
             unit = Unit_Mysql()

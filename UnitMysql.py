@@ -19,9 +19,11 @@ class Unit_Mysql:
         con = self.connect_db()
         cur = con.cursor()
         try:
-            sql_str = "insert into host_info  (username, kind, timestamp, w_number, room_number, link)" \
-                      " values ('%s', '%s','%s','%s','%s','%s')" \
-                      % (host.username, host.kind, host.localtime, host.w_number, host.room_number, host.link)
+            sql_str = "insert into host_info  (username, kind, timestamp, w_number, room_number, link, online, " \
+                      "coefficient)" \
+                      " values ('%s', '%s','%s','%s','%s','%s','%s','%s')" \
+                      % (host.username, host.kind, host.localtime, host.w_number, host.room_number, host.link,
+                         host.online, host.coefficient)
             cur.execute(sql_str)
             con.commit()
         except:

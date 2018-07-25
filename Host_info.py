@@ -10,8 +10,9 @@ class Host:
     followers = 0
     coefficient = 0.0
     localtime = ""
-    room_number = 0
+    room_number = ""
     link =""
+    online = 0
 
 
 
