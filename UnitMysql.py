@@ -19,9 +19,9 @@ class Unit_Mysql:
         con = self.connect_db()
         cur = con.cursor()
         try:
-            sql_str = "insert into host_info  (username, kind, timestamp, w_number, followers, coefficient)" \
+            sql_str = "insert into host_info  (username, kind, timestamp, w_number, room_number, link)" \
                       " values ('%s', '%s','%s','%s','%s','%s')" \
-                      % (host.username, host.kind, host.localtime, host.w_number, host.followers, host.coefficient)
+                      % (host.username, host.kind, host.localtime, host.w_number, host.room_number, host.link)
             cur.execute(sql_str)
             con.commit()
         except:
@@ -36,11 +36,21 @@ class Unit_Mysql:
 # host = Host()
 # host.username = "大仙"
 # host.kind = "王者荣耀"
+
+# for index in range(10):
+#     time1 = int(time.time())
+#     print(time1)
+#     timearray = time.localtime(time1)
+#     datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
+#     print(datetime1)
 # time1 = int(time.time())
 # print(time1)
 # timearray = time.localtime(time1)
-# datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
-# host.localtime = str(datetime1)
+# print(timearray)
+datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
+print(datetime1)
+
+
 # print(host.localtime)
 # host.w_number = 1960000
 # host.followers = 12000000

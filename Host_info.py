@@ -10,6 +10,12 @@ class Host:
     followers = 0
     coefficient = 0.0
     localtime = ""
+    room_number = 0
+    link =""
+
+
+
+
 
 
 
