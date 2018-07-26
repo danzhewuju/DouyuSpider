@@ -60,6 +60,35 @@ def open_html(url):
     return r.text
 
 
+def get_more_link(url):
+    html = open_html(url)
+    soup = BeautifulSoup(html, 'lxml')
+    total = soup.find_all('a', class_='thumb')
+    return total
+
+
+def get_links_bak(url):                   #获取被折叠的全部来连接
+    kindurl = []
+    links = []
+    stra = "https://www.douyu.com"
+    html = open_html(url)
+    soup = BeautifulSoup(html, 'lxml')
+    total = soup.find_all('ul', class_='clearfix')
+    total = total[:7]
+    for x in total:
+        linka = x.find('a', class_='more')
+        if linka is not None:
+            href = "https://www.douyu.com/" + linka['href']
+            links.append(get_more_link(href))
+        else:
+            links.append(x.find_all('a'))
+    for index in range(links.__len__()):
+        for soul in links[index]:
+            strb = stra + soul['href']
+            kindurl.append(strb)
+    return links, kindurl
+
+
 def getlinks(url):
     html = open_html(url)
     soup = BeautifulSoup(html, 'lxml')
@@ -88,7 +117,7 @@ def caculate_rate(w_watching, online):  #计算影响因子
 
 def get_info(): #或取每一个模块的连接地址以及相关大类的信息
     url = "https://www.douyu.com/directory/all/"
-    links, kindurl = getlinks(url)
+    links, kindurl = get_links_bak(url)
     count = 0
     for dirlink in kindurl:
         html = open_html(dirlink)
@@ -102,23 +131,27 @@ def get_info(): #或取每一个模块的连接地址以及相关大类的信息
             number = 0
             link = "https://www.douyu.com/" + room_number
             online = get_online_number(room_number)
-            str1 = x1.find(class_='dy-num fr').get_text()
-            number = trans_string(str1)
-            coefficient = caculate_rate(number, online)
-            host_a = Host()
-            host_a.username = username
-            host_a.kind = kind
-            host_a.w_number = number
-            host_a.room_number = room_number
-            host_a.link = link
-            host_a.online = online
-            host_a.coefficient = coefficient
-            datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
-            host_a.localtime = str(datetime1)
-            unit = Unit_Mysql()
-            unit.insert_db(host_a)
-            count += 1
-            print(count, ":抓取了直播间:", username, "的信息！")
+            try:
+                str1 = x1.find(class_='dy-num fr').get_text()       #部分连接没有number关键字，（无效连接）跳过
+            except:
+                break
+            else:
+                number = trans_string(str1)
+                coefficient = caculate_rate(number, online)
+                host_a = Host()
+                host_a.username = username
+                host_a.kind = kind
+                host_a.w_number = number
+                host_a.room_number = room_number
+                host_a.link = link
+                host_a.online = online
+                host_a.coefficient = coefficient
+                datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
+                host_a.localtime = str(datetime1)
+                unit = Unit_Mysql()
+                unit.insert_db(host_a)
+                count += 1
+                print(count, ":抓取了直播间:", username, "的信息！")
     print("本次总共抓取了:", count, "信息！")
 
 
