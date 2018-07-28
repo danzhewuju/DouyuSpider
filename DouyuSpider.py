@@ -74,7 +74,7 @@ def get_links_bak(url):                   #获取被折叠的全部来连接
     html = open_html(url)
     soup = BeautifulSoup(html, 'lxml')
     total = soup.find_all('ul', class_='clearfix')
-    total = total[:7]
+    total = total[:7]                    #获取斗鱼的7大模块
     for x in total:
         linka = x.find('a', class_='more')
         if linka is not None:
@@ -82,6 +82,7 @@ def get_links_bak(url):                   #获取被折叠的全部来连接
             links.append(get_more_link(href))
         else:
             links.append(x.find_all('a'))
+
     for index in range(links.__len__()):
         for soul in links[index]:
             strb = stra + soul['href']
@@ -133,9 +134,9 @@ def get_info(): #或取每一个模块的连接地址以及相关大类的信息
             online = get_online_number(room_number)
             try:
                 str1 = x1.find(class_='dy-num fr').get_text()       #部分连接没有number关键字，（无效连接）跳过
-            except:
+            except :
                 break
-            else:
+            finally:
                 number = trans_string(str1)
                 coefficient = caculate_rate(number, online)
                 host_a = Host()
