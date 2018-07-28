@@ -156,7 +156,27 @@ def get_info(): #或取每一个模块的连接地址以及相关大类的信息
     print("本次总共抓取了:", count, "信息！")
 
 
-get_info()
+def get_class_count():                            #获取当前有多少类的直播间   这个取决于是否开播
+    links = []
+    url = "https://www.douyu.com/directory/all/"
+    html = open_html(url)
+    soup = BeautifulSoup(html, 'lxml')
+    total = soup.find_all('ul', class_='clearfix')
+    total = total[:7]
+    count = 0
+    for x in total:
+        linka = x.find('a', class_='more')
+        if linka is not None:
+            href = "https://www.douyu.com/" + linka['href']
+            links.append(get_more_link(href))
+        else:
+            links.append(x.find_all('a'))
+    for x in links:
+        count += x.__len__()
+    return count
+
+
+print(get_class_count())
 
 
 
