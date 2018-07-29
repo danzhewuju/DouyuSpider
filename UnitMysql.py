@@ -49,8 +49,8 @@ class Unit_Mysql:
 # print(time1)
 # timearray = time.localtime(time1)
 # print(timearray)
-datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
-print(datetime1)
+# datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
+# print(datetime1)
 
 
 # print(host.localtime)
