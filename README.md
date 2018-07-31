@@ -11,7 +11,7 @@
 
 
 
-库支持：
+运行库：
 
 pip install requests
 
