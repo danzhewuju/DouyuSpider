@@ -4,3 +4,14 @@
 2.完善了算法，获取了斗鱼所有直播间的信息
 
 3.统计数据：斗鱼直播类型：536，536
+
+4.完善了算法获取了斗鱼所有直播间的信息，直接运行DouyuSpiderV2.py文件即可。
+
+
+
+
+
+库支持：
+pip install requests
+pip install lxml
+pip install BeautifulSoup4
