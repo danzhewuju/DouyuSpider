@@ -69,7 +69,7 @@ def get_info():
                 kind = data['c2name']
                 online = get_online_number(rid)
                 coefficient = caculate_rate(w_watching, online)
-                link = "https://www.douyu.con/" + rid
+                link = "https://www.douyu.com/" + rid
                 datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
                 host = Host()
 
