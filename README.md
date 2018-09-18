@@ -20,4 +20,4 @@ pip install lxml
 pip install BeautifulSoup4
 
 
-运行时长：90min
+运行时长：90mins
