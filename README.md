@@ -19,5 +19,7 @@ pip install lxml
 
 pip install BeautifulSoup4
 
+pip install pymysql
+
 
 运行时长：90mins
