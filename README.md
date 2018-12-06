@@ -22,4 +22,6 @@ pip install BeautifulSoup4
 pip install pymysql
 
 
-运行时长：90mins
+运行时长：60mins
+
+注：如果你使用的是工公网ip,斗鱼可能会对你进行IP封锁.如果使用内网ip，可能能够全部抓取。
