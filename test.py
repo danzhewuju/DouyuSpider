@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import re
 import requests
 import time
+import datetime
 
 
 def open_html(url):
@@ -49,4 +50,32 @@ def get_info():
         a += 1
 
 
-get_info()
+# get_info()
+if __name__ == '__main__':
+    class Foo(object):
+        __count = 0  # 私有变量，无法在外部访问，Foo.__count会出错
+
+        @classmethod
+        def get_count(cls):
+            return cls.__count
+
+        @classmethod
+        def set_count(cls, num):
+            cls.__count = num
+
+
+    starttime = datetime.datetime.now()
+    # long running
+    # do something other
+    Foo.set_count(12)
+    f = Foo()
+    sum = 0
+    for i in range(10000):
+        sum += i
+    print(f.get_count())
+    print(int )
+    endtime = datetime.datetime.now()
+    print((endtime - starttime).seconds)
+
+
+

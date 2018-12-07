@@ -3,9 +3,10 @@ from bs4 import BeautifulSoup
 import re
 import requests
 from Host_info import *
-from UnitMysql import *
+from UnitMysql import Unit_Mysql
 import time
 import json
+import datetime
 
 
 def open_html(url):
@@ -37,18 +38,21 @@ def caculate_rate(w_watching, online):  #计算影响因子
 
 
 def get_info():
+    starttime = datetime.datetime.now() #记录起始时间
     a = 1   #每一个类型的直播间 比如：王者荣耀
     b = 1   #每个直播间的分类
     pages= 0
     count = 0
     save_a = 0
     sum = 600 #设置最多的直播间数量
+    Unit_Mysql.set_info()   #输入数据库的用户名以及密码
+    Unit_Mysql.create_structured()
     while a < sum :
         b = 1
         url = "https://www.douyu.com/gapi/rkc/directory/2_"+str(a)+"/"+str(b)
         html = open_html(url)
         counta = 1
-        countb = 1
+        countb = 110
         rid =""
         username =""
         w_watching =""
@@ -72,7 +76,6 @@ def get_info():
                 link = "https://www.douyu.com/" + rid
                 datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
                 host = Host()
-
                 host.username = username
                 host.online = online
                 host.w_number = w_watching
@@ -81,8 +84,8 @@ def get_info():
                 host.coefficient = coefficient
                 host.link = link
                 host.localtime =datetime1
-                unit = Unit_Mysql()
-                unit.insert_db(host)
+                # unit = Unit_Mysql()
+                Unit_Mysql.insert_db(host)
                 count += 1
                 print("正在抓取第%d条数据，%s（%s:第%d/%d页）" % (count, username, kind, b, pages))
             b += 1
@@ -91,6 +94,8 @@ def get_info():
             save_a = a
         a += 1
     print(save_a)
+    endtime = datetime.datetime.now()
+    print("Running Time:"+(endtime-starttime).seconds)
 
 
 get_info()
