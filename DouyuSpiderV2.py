@@ -47,6 +47,8 @@ def get_info():
     sum = 600 #设置最多的直播间数量
     Unit_Mysql.set_info()   #输入数据库的用户名以及密码
     Unit_Mysql.create_structured()
+    Hashfilter ={}    #数据中包含了重复的数，需要除去
+
     while a < sum :
         b = 1
         url = "https://www.douyu.com/gapi/rkc/directory/2_"+str(a)+"/"+str(b)
@@ -68,26 +70,30 @@ def get_info():
             json_a = json.loads(html)
             for data in json_a['data']['rl']:
                 rid = str(data['rid'])
-                username = data['nn']
-                w_watching = data['ol']
-                kind = data['c2name']
-                online = get_online_number(rid)
-                coefficient = caculate_rate(w_watching, online)
-                link = "https://www.douyu.com/" + rid
-                datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
-                host = Host()
-                host.username = username
-                host.online = online
-                host.w_number = w_watching
-                host.kind = kind
-                host.room_number = rid
-                host.coefficient = coefficient
-                host.link = link
-                host.localtime =datetime1
-                # unit = Unit_Mysql()
-                Unit_Mysql.insert_db(host)
-                count += 1
-                print("正在抓取第%d条数据，%s（%s:第%d/%d页）" % (count, username, kind, b, pages))
+                if rid not in Hashfilter:
+                    Hashfilter[rid] =True
+                    username = data['nn']
+                    w_watching = data['ol']
+                    kind = data['c2name']
+                    online = get_online_number(rid)
+                    coefficient = caculate_rate(w_watching, online)
+                    link = "https://www.douyu.com/" + rid
+                    datetime1 = time.strftime("%Y-%m-%d %H:%M:%S")
+                    host = Host()
+                    host.username = username
+                    host.online = online
+                    host.w_number = w_watching
+                    host.kind = kind
+                    host.room_number = rid
+                    host.coefficient = coefficient
+                    host.link = link
+                    host.localtime = datetime1
+                    # unit = Unit_Mysql()
+                    Unit_Mysql.insert_db(host)
+                    count += 1
+                    print("正在抓取第%d条数据，%s（%s:第%d/%d页）" % (count, username, kind, b, pages))
+                else:
+                    break
             b += 1
         b = 1
         if pages != 0:
