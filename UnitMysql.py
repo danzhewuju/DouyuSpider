@@ -58,7 +58,7 @@ class Unit_Mysql:
                     "link char(200) DEFAULT NULL COMMENT '直播间链接'," \
                     "timestamp timestamp NULL DEFAULT NULL COMMENT '爬取时间', " \
                     "followers int(11) DEFAULT NULL COMMENT '关注人数', PRIMARY KEY (`id`))" \
-                    "ENGINE=InnoDB AUTO_INCREMENT=511 DEFAULT CHARSET=utf8"
+                    "ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8"
 
             cur.execute(sql_str)
             con.commit()
