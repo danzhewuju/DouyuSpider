@@ -31,8 +31,10 @@ pip install pymysql
 
 我已经将程序编译成为了exe文件，也就是说你可以直接在windows下直接运行而不用安装相关依赖，你只需在本机安装了mysql数据库
 
+同时我也编译了Mac系统可直接运行的文件，你也可以直接在Mac下直接运行
+
 运行步骤:
 
 1.安装mysql(已安装忽略)
 
-2.运行DouyuSpiderV2.exe  然后分别在doc下输入你mysql的用户名以及密码，程序就开始自动爬取斗鱼的直播间信息。
+2.运行DouyuSpiderV2.exe/DouyuSpiderV2(unix)  然后分别在doc下输入你mysql的用户名以及密码，程序就开始自动爬取斗鱼的直播间信息。
